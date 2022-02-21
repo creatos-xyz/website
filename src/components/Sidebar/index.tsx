@@ -55,7 +55,6 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   width: 100%;
   margin-top: 14px;
 `;

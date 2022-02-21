@@ -48,6 +48,7 @@ const Container = styled.div`
   padding: 25px;
   width: 425px;
   border-radius: 20px;
+  user-select: none;
 
   background-color: ${({ theme }) => theme.colors.layout.dark};
 

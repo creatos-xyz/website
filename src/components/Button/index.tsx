@@ -24,6 +24,7 @@ const Container = styled.button<{ accent: string }>`
   cursor: pointer;
   font-family: ${({ theme }) => theme.family.title};
   font-size: ${({ theme }) => theme.size.medium};
+  transition: all 0.2s ease-in-out;
 
   background-color: ${({ theme, accent }) => {
     switch (accent) {
@@ -43,6 +44,10 @@ const Container = styled.button<{ accent: string }>`
         return theme.colors.text.lightest;
     }
   }};
+
+  &:hover {
+    filter: brightness(0.9);
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoint.mobile}) {
     font-size: ${({ theme }) => theme.size.normal};
