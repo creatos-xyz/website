@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React, { FC } from "react";
-import { Popper } from "react-popper";
 import styled from "styled-components";
 import Icon from "../Icon";
 import Link from "../Link";
@@ -212,6 +211,7 @@ const NavLinkLabel = styled.div`
   background-color: ${({ theme }) => theme.colors.accent.green};
   color: ${({ theme }) => theme.colors.text.lightest};
 `;
+NavLinkLabel;
 
 const ProfileSection = styled.div`
   position: relative;
