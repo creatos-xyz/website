@@ -27,6 +27,7 @@ const Container = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoint.mobile}) {
     padding: 0 20px;
+    margin: 0;
   }
 `;
 

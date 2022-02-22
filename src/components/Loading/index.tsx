@@ -87,7 +87,7 @@ const Message = styled.p`
 
 const Error = styled.p`
   margin-top: 30px;
-  color: ${({ theme }) => theme.colors.accent.red};
+  color: ${({ theme }) => theme.colors.accent.light};
   font-size: ${({ theme }) => theme.size.tiny};
 `;
 
