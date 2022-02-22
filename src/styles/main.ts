@@ -15,14 +15,14 @@ const MainStyle = createGlobalStyle`
 
   @font-face {
     font-family: "SF Pro Display";
-    src: url("/fonts/sf-pro-display-medium.otf") format("opentype");
+    src: url("/fonts/sf-pro-display/sf-pro-display-medium.otf") format("opentype");
     font-weight: medium;
     font-style: normal;
   }
 
   @font-face {
     font-family: "SF Pro Display";
-    src: url("/fonts/sf-pro-display-bold.otf") format("opentype");
+    src: url("/fonts/sf-pro-display/sf-pro-display-bold.otf") format("opentype");
     font-weight: bold;
     font-style: normal;
   }

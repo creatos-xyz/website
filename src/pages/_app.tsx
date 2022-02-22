@@ -18,7 +18,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
       <Head description={"creatos"} />
       <MainStyle />
       <NextProgress
-        delay={100}
+        delay={0}
         color={theme.colors.accent.light}
         options={{
           showSpinner: false,

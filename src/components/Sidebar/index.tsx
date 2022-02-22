@@ -1,11 +1,15 @@
 import { useRouter } from "next/router";
 import React, { FC } from "react";
+import { Popper } from "react-popper";
 import styled from "styled-components";
+import Icon from "../Icon";
 import Link from "../Link";
 
 type SidebarLink = {
-  href: string;
+  href?: string;
+  onClick?: () => void;
   label: string;
+  disabled?: boolean;
   icon: string;
 };
 
@@ -17,7 +21,7 @@ const Sidebar: FC<Props> = ({ links }: Props) => {
   const { pathname } = useRouter();
 
   const isActive = (href: string): boolean => {
-    return pathname.startsWith(href);
+    return pathname.endsWith(href);
   };
 
   return (
@@ -25,23 +29,42 @@ const Sidebar: FC<Props> = ({ links }: Props) => {
       <Nav>
         <NavLinksList>
           <SpecialNavLink href={"/"} active={isActive("/")}>
-            <NavLinkIcon className={"ri-home-line"} />
+            <NavLinkIcon type={"ri-vip-crown-fill"} />
           </SpecialNavLink>
           <Separator />
-          {links.map((link) => (
-            <NavLinkItem key={link.href}>
-              <NavLink href={link.href} active={isActive(link.href)}>
-                <NavLinkIcon className={link.icon} />
-              </NavLink>
+          {links.map((link: SidebarLink, index: number) => (
+            <NavLinkItem key={index}>
+              {link.href ? (
+                <NavLink
+                  href={link.href}
+                  disabled={link.disabled}
+                  active={isActive(link.href)}
+                >
+                  <NavLinkIcon type={link.icon} />
+                </NavLink>
+              ) : (
+                <NavLink
+                  as={"button"}
+                  onClick={link.onClick}
+                  disabled={link.disabled}
+                >
+                  <NavLinkIcon type={link.icon} />
+                </NavLink>
+              )}
             </NavLinkItem>
           ))}
         </NavLinksList>
+        <ProfileSection>
+          <ProfilePicture src={"/images/creatos.gif"} />
+          <ProfileStatus type={"online"} />
+        </ProfileSection>
       </Nav>
     </Container>
   );
 };
 
 const Container = styled.aside`
+  position: fixed;
   width: 75px;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.layout.darker};
@@ -55,8 +78,10 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
-  margin-top: 14px;
+  height: 100%;
+  padding: 14px 0;
 `;
 
 const NavLinksList = styled.ul`
@@ -69,6 +94,9 @@ const NavLinksList = styled.ul`
 `;
 
 const NavLinkItem = styled.li`
+  position: relative;
+  display: flex;
+  flex-direction: row;
   margin-bottom: 10px;
 
   &:last-child {
@@ -76,50 +104,93 @@ const NavLinkItem = styled.li`
   }
 `;
 
-const NavLink = styled(Link)<{ active?: boolean }>`
+const NavLink = styled(Link)<{ disabled?: boolean; active?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  border: none;
   height: 50px;
   width: 50px;
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
 
-  background-color: ${({ theme }) => theme.colors.layout.light};
-  color: ${({ theme, active = false }) =>
-    active ? theme.colors.accent.green : theme.colors.layout.lightest};
-
-  &:hover {
-    border-radius: 15px;
-    background-color: ${({ theme }) => theme.colors.accent.green};
-    color: ${({ theme }) => theme.colors.layout.lightest};
-  }
-
-  &:active {
-  }
-`;
-
-const SpecialNavLink = styled(NavLink)<{ active?: boolean }>`
-  margin-top: 0;
-
-  ${({ theme, active = false }) =>
+  ${({ theme, disabled, active = false }) =>
     active
       ? `
     border-radius: 15px;
-    background-color: ${theme.colors.accent.light};
+    background-color: ${theme.colors.accent.green};
     color: ${theme.colors.layout.lightest};
 
-    &:hover {
-      border-radius: 15px;
-      background-color: ${theme.colors.accent.light};
-      color: ${theme.colors.layout.lightest};
+    svg {
+      transition: all 0.2s ease-in-out;
+      fill: ${theme.colors.layout.lightest};
     }
   `
       : `
     background-color: ${theme.colors.layout.light};
     color: ${theme.colors.accent.green};
+
+    svg {
+      transition: all 0.2s ease-in-out;
+      fill: ${theme.colors.accent.green};
+    }
+    
+    ${
+      !disabled
+        ? `
+      &:hover {
+        border-radius: 15px;
+        background-color: ${theme.colors.accent.green};
+        color: ${theme.colors.layout.lightest};
+
+        svg {
+          transition: all 0.2s ease-in-out;
+          fill: ${theme.colors.layout.lightest};
+        }
+      }
+    `
+        : `
+      &:hover {
+        color: ${theme.colors.accent.green};
+
+        svg {
+          fill: ${theme.colors.accent.green};
+        }
+      }
+    `
+    }
   `};
+
+  ${({ disabled, theme }) =>
+    disabled &&
+    `
+    cursor: default;
+    background-color: ${theme.colors.layout.darkest};
+  `}
+`;
+
+const SpecialNavLink = styled(NavLink)<{ active?: boolean }>`
+  margin-top: 0;
+
+  ${({ active = false }) =>
+    active &&
+    `
+    border-radius: 15px;
+
+    &:hover {
+      border-radius: 15px;
+    }
+  `};
+
+  background-color: ${({ theme }) => theme.colors.accent.light};
+  color: ${({ theme }) => theme.colors.layout.lightest};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.accent.light};
+    color: ${({ theme }) => theme.colors.layout.lightest};
+  }
 `;
 
 const Separator = styled.div`
@@ -128,13 +199,49 @@ const Separator = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.layout.dark};
 `;
 
-const NavLinkIcon = styled.i``;
+const NavLinkIcon = styled(Icon)`
+  display: flex;
+  font-size: 25px;
+`;
 
 const NavLinkLabel = styled.div`
+  position: absolute;
+  left: 55px;
   font-size: 1rem;
 
   background-color: ${({ theme }) => theme.colors.accent.green};
   color: ${({ theme }) => theme.colors.text.lightest};
+`;
+
+const ProfileSection = styled.div`
+  position: relative;
+  display: flex;
+  width: 50px;
+  height: 50px;
+`;
+
+const ProfilePicture = styled.img`
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+`;
+
+const ProfileStatus = styled.span<{ type: "online" | "do-not-disturb" }>`
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 3px solid ${({ theme }) => theme.colors.layout.darker};
+  background-color: ${({ type, theme }) => {
+    switch (type) {
+      case "online":
+        return theme.colors.accent.green;
+      default:
+        return theme.colors.accent.green;
+    }
+  }};
 `;
 
 export type { SidebarLink };

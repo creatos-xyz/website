@@ -4,8 +4,16 @@ import { NextPage } from "next";
 import Page from "@src/components/Page";
 import styled from "styled-components";
 import Card from "@src/components/Card";
+import { useRouter } from "next/router";
+import { DISCORD_INVITE_URL } from "@src/constants/main";
+import Icon from "@src/components/Icon";
+import { useModal } from "@src/hooks/useModal";
+import InfoModal from "@src/components/InfoModal";
 
 const HomePage: NextPage = () => {
+  const router = useRouter();
+  const { Modal, isModalOpen, openModal, closeModal } = useModal();
+
   return (
     <Page title={"Creatos"}>
       <Title>
@@ -27,12 +35,25 @@ const HomePage: NextPage = () => {
               label: "Order now",
               accent: "primary",
               onClick: () => {
-                console.log("clicked");
+                if (DISCORD_INVITE_URL) router.push(DISCORD_INVITE_URL);
+                else console.error("Discord invite link is not defined");
               },
             },
           ]}
         />
       </Content>
+      {!isModalOpen ? (
+        <InfoModalButton
+          onClick={() =>
+            !isModalOpen &&
+            openModal(<InfoModal onClose={() => closeModal()} />)
+          }
+        >
+          <Icon type={"info"} />
+        </InfoModalButton>
+      ) : (
+        Modal
+      )}
     </Page>
   );
 };
@@ -45,7 +66,7 @@ const Title = styled.h1`
 
   @media (max-width: ${({ theme }) => theme.breakpoint.mobile}) {
     margin-top: 25px;
-    font-size: ${({ theme }) => theme.size.normal};
+    font-size: ${({ theme }) => theme.size.large};
   }
 `;
 
@@ -56,37 +77,49 @@ const Subtitle = styled.h2`
   text-align: center;
 
   @media (max-width: ${({ theme }) => theme.breakpoint.mobile}) {
-    font-size: ${({ theme }) => theme.size.small};
+    font-size: ${({ theme }) => theme.size.normal};
   }
 `;
 
 const Content = styled.div`
-  position: relative;
   height: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   margin-top: 50px;
 `;
 
 const Illustration = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   flex: 0.9;
 
-  @media (max-width: ${({ theme }) => theme.breakpoint.mobile}) {
+  @media (max-width: ${({ theme }) => theme.breakpoint.laptop}) {
     display: none;
   }
 `;
 
 const Image = styled.img`
-  position: absolute;
-  bottom: 0;
-  width: 675px;
+  height: auto;
+  width: 80%;
   object-fit: cover;
 `;
 
 const OrderCard = styled(Card)`
   flex: 1;
+`;
+
+const InfoModalButton = styled.div`
+  position: fixed;
+  bottom: 35px;
+  right: 35px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export default HomePage;

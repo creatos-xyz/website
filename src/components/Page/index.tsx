@@ -17,10 +17,12 @@ const Page: FC<Props> = ({ title, children }: Props) => {
 };
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   width: 100%;
+  margin-left: 75px;
   padding: 0 7rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoint.mobile}) {

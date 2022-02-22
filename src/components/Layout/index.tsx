@@ -1,3 +1,4 @@
+import { DISCORD_INVITE_URL } from "@src/constants/main";
 import React, { FC, ReactNode } from "react";
 import styled from "styled-components";
 import Sidebar, { SidebarLink } from "../Sidebar";
@@ -9,24 +10,26 @@ interface Props {
 const Layout: FC<Props> = ({ children }: Props) => {
   const links: SidebarLink[] = [
     {
-      href: "/",
+      href: DISCORD_INVITE_URL,
       label: "Join our Discord",
-      icon: "ri-home-line",
+      icon: "discord-logo",
     },
     {
-      href: "/",
+      href: "https://twitter.com/creatos_xyz",
       label: "Join our Twitter",
-      icon: "ri-home-line",
+      icon: "ri-twitter-fill",
     },
     {
-      href: "/",
+      onClick: () => {
+        navigator.clipboard.writeText("https://www.creatos.xyz/");
+      },
       label: "Share the website",
-      icon: "ri-home-line",
+      icon: "ri-links-line",
     },
     {
-      href: "/",
+      href: DISCORD_INVITE_URL,
       label: "Order your server",
-      icon: "ri-home-line",
+      icon: "ri-add-fill",
     },
   ];
 
@@ -41,7 +44,7 @@ const Layout: FC<Props> = ({ children }: Props) => {
 const Container = styled.main`
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  height: 100%;
 `;
 
 export default Layout;

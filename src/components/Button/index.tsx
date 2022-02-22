@@ -4,12 +4,13 @@ import styled from "styled-components";
 interface Props {
   accent: "primary" | "dark" | "light";
   onClick: () => void;
+  className?: string;
   children: ReactNode;
 }
 
-const Button: FC<Props> = ({ accent, onClick, children }: Props) => {
+const Button: FC<Props> = ({ accent, onClick, className, children }: Props) => {
   return (
-    <Container accent={accent} onClick={onClick}>
+    <Container accent={accent} onClick={onClick} className={className}>
       {children}
     </Container>
   );

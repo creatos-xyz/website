@@ -12,6 +12,7 @@ const Link: React.FC<Props> = ({
   className,
   locale,
   children,
+  disabled,
   ...rest
 }: Props) => {
   const isString = (x: any) => {
@@ -24,7 +25,7 @@ const Link: React.FC<Props> = ({
     if (!internal) {
       return (
         <a
-          href={href}
+          href={!disabled ? href : ""}
           className={className}
           target={"_blank"}
           rel={"noopener noreferrer"}
@@ -37,7 +38,7 @@ const Link: React.FC<Props> = ({
   }
 
   return (
-    <NextLink href={href} as={as} locale={locale}>
+    <NextLink href={!disabled ? href : ""} as={as} locale={locale}>
       <a className={className} {...rest}>
         {children}
       </a>

@@ -11,7 +11,9 @@
     "docker:run": "docker run -p 3000:3000 creatos-website"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.2",
     "@react-hook/media-query": "^1.1.1",
+    "@svgr/webpack": "^6.2.1",
     "file-loader": "^6.2.0",
     "next": "^12.1.0",
     "next-progress": "^1.0.8",
@@ -20,6 +22,7 @@
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
     "react-markdown": "^8.0.0",
+    "react-popper": "^2.2.5",
     "remixicon": "^2.5.0",
     "styled-components": "^5.2.3",
     "url-loader": "^4.1.1"
